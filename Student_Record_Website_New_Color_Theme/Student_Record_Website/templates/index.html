@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Record Management</title>
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Student Record Management</h1>
+    <p class="subtitle">Manage Student Information Easily</p>
+
+    <!-- Add Student Form -->
+    <div class="form-box">
+        <h2>Add New Student</h2>
+
+        <form action="/add" method="POST">
+
+            <input type="number" name="roll"
+            placeholder="Roll Number" min="1" required>
+
+            <input type="text" name="name"
+            placeholder="Student Name" required>
+
+            <input type="number" name="age"
+            placeholder="Age" min="5" max="100" required>
+
+            <input type="number" name="marks"
+            placeholder="Marks" min="0" max="100"
+            step="0.01" required>
+
+            <button type="submit">Add Student</button>
+
+        </form>
+    </div>
+
+    <!-- Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- Search Student -->
+    <div class="search-box">
+        <h2>Search Student</h2>
+
+        <form action="/search" method="GET">
+            <input type="number" name="roll"
+            placeholder="Enter Roll Number" min="1" required>
+
+            <button type="submit">Search</button>
+            <a href="/">Show All</a>
+        </form>
+    </div>
+
+    <!-- Student Records -->
+    <h2>Student Records</h2>
+
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Marks</th>
+            <th>Action</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student[0] }}</td>
+            <td>{{ student[1] }}</td>
+            <td>{{ student[2] }}</td>
+            <td>{{ student[3] }}</td>
+            <td>
+                <a class="delete"
+                href="/delete/{{ student[0] }}"
+                onclick="return confirm('Delete this student?')">
+                Delete
+                </a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">No student records found</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

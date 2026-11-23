@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | StudentHub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">S</span><span>Student<span class="brand-light">Hub</span><small>RECORD MANAGEMENT</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav-link active" href="{{ url_for('dashboard') }}"><span class="nav-icon">▦</span> Dashboard</a>
+    <a class="nav-link" href="{{ url_for('students_page') }}"><span class="nav-icon">▤</span> Student Records</a>
+    <div class="sidebar-bottom"><div class="side-note"><span class="online-dot"></span> System operational</div><small>StudentHub · Version 1.0</small></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><div><div class="eyebrow">OVERVIEW</div><h1>Dashboard</h1></div><a class="top-action" href="{{ url_for('students_page') }}">Manage students <span>→</span></a></header>
+    <section class="welcome-panel"><div><div class="welcome-tag">STUDENT MANAGEMENT</div><h2>Welcome to StudentHub</h2><p>A simple, organized space to manage student information and academic records.</p><a class="primary-link" href="{{ url_for('students_page') }}">Open student records <span>→</span></a></div><div class="welcome-art"><div class="art-card"><span>✦</span><strong>Keep every<br>record in order.</strong><small>YOUR ACADEMIC WORKSPACE</small></div></div></section>
+    <div class="section-heading"><div><h3>At a glance</h3><p>Your student database summary</p></div><span class="updated-label"><span class="online-dot"></span> LIVE DATABASE</span></div>
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-top"><span>Total students</span><span class="stat-icon blue">♙</span></div><div class="stat-number">{{ total }}</div><div class="stat-foot">Student records stored</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Average marks</span><span class="stat-icon violet">％</span></div><div class="stat-number">{{ average }}<small>/ 100</small></div><div class="stat-foot">Across all students</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Highest marks</span><span class="stat-icon green">↗</span></div><div class="stat-number">{{ highest }}<small>/ 100</small></div><div class="stat-foot">Top recorded score</div></article>
+    </section>
+    <section class="content-card recent-card"><div class="card-heading"><div><h3>Recently added records</h3><p>A quick look at your student list</p></div><a class="text-link" href="{{ url_for('students_page') }}">View all records →</a></div>
+      {% if recent %}<div class="table-wrap"><table><thead><tr><th>ROLL NO.</th><th>STUDENT NAME</th><th>AGE</th><th>MARKS</th><th>RESULT</th></tr></thead><tbody>{% for student in recent %}<tr><td class="roll-cell">#{{ student.roll }}</td><td><div class="student-name"><span class="avatar">{{ student.name[0]|upper }}</span>{{ student.name }}</div></td><td>{{ student.age }}</td><td class="marks-cell">{{ '%.1f'|format(student.marks) }}</td><td><span class="status-pill">Recorded</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><div class="empty-icon">▤</div><strong>No student records yet</strong><p>Add your first student to see records here.</p><a class="primary-link" href="{{ url_for('students_page') }}">Add a student →</a></div>{% endif %}
+    </section>
+    <footer class="footer">© 2026 StudentHub <span>Designed for simple student record management</span></footer>
+  </main>
+</div>
+</body></html>
